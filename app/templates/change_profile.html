@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Your Profile</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>{{ form.name.label }} {{ form.name(size=32) }}</div>
+        <div>{{ form.email.label }} {{ form.email(size=32) }}</div>
+        <div>{{ form.phone.label }} {{ form.phone(size=32) }}</div>
+        <div>{{ form.education.label }} {{ form.education(size=32) }}</div>
+        <div>{{ form.soft_skills.label }} {{ form.soft_skills(size=32) }}</div>
+        <div>{{ form.hard_skills.label }} {{ form.hard_skills(size=32) }}</div>
+        <div>{{ form.address.label }} {{ form.address(size=32) }}</div>
+        <div>{{ form.profession.label }} {{ form.profession(size=32) }}</div>
+        <div>{{ form.lang.label }} {{ form.lang(size=32) }}</div>
+        <div>{{ form.description.label }} {{ form.description(size=32) }}</div>
+        <div>{{ form.level.label }} {{ form.level(size=32) }}</div>
+        <div>{{ form.image.label }} {{ form.image() }}</div>
+        <div>{{ form.submit() }}</div>
+    </form>
+    <hr>
+    <h3>Your Skills</h3>
+    {% if all_skills %}
+        {% for skill in all_skills %}
+            <p>Ім'я: {{ skill.name }}</p>
+            <p>Email: {{ skill.email }}</p>
+            <p>Телефон: {{ skill.phone }}</p>
+            <p>Освіта: {{ skill.education }}</p>
+            <p>Soft Skills: {{ skill.soft_skills }}</p>
+            <p>Hard Skills: {{ skill.hard_skills }}</p>
+            <p>Адреса: {{ skill.address }}</p>
+            <p>Професія: {{ skill.profession }}</p>
+            <p>Мови: {{ skill.lang }}</p>
+            <p>Опис: {{ skill.description }}</p>
+            <p>Рівень: {{ skill.level }}</p>
+            <p>Зображення: {{ skill.image }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Дані відсутні.</p>
+    {% endif %}
+{% endblock %}

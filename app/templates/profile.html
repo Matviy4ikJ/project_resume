@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Your Profile {{current_user.email}}</h2>
+
+    <hr>
+    <h3>Your Skills</h3>
+    <ul>
+        {% for skill in skills %}
+        <li>{{ skill.name }} - {{ skill.level }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('generate_pdf') }}">Download Resume as PDF</a>
+    <a href="{{ url_for('change_resume') }}">Change / add info about yourself</a>
+
+
+{% endblock %}
