@@ -2,8 +2,7 @@ import base64
 
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import render_template, redirect, url_for, flash, request, make_response
-from fpdf import FPDF
-from pdfkit import pdfkit
+import pdfkit
 
 from app import app, tools, db
 from app.forms import *
@@ -87,40 +86,35 @@ def generate_pdf():
 
     user = current_user
 
-    name_surname = user.name_surname
-    phone_number = user.phone_number
+    name_firstname = user.first_name
+    name_surname = user.second_name
+    phone_number = user.phone
     email = user.email
     education = user.education
     lang = user.lang
-    lang_level = user.lang_level
-    country = user.country
-    city = user.city
     description = user.description
     profession = user.profession
     soft_skills = user.soft_skills
-    tech_skills = user.tech_skills
-    projects = user.projects
-    how_long = user.how_long
-    job_description = user.job_description
-    past_work = user.past_work
+    tech_skills = user.hard_skills
     image = user.image
     photo_data = ''
 
     if image is not None:
         photo_data = base64.b64encode(image).decode('utf-8')
 
-    html_content = render_template('download_aspdf.html', profession=profession, name_surname=name_surname,
+    html_content = render_template('download_aspdf.html', profession=profession,
+                                   name_firstname=name_firstname,
+                                   name_surname=name_surname,
                                   phone_number=phone_number, email=email, education=education,
-                                  tech_skills=tech_skills, soft_skills=soft_skills, projects=projects,
-                                  lang=lang, lang_level=lang_level, country=country, city=city,
-                                  past_work=past_work, how_long=how_long, job_description=job_description,
+                                  tech_skills=tech_skills, soft_skills=soft_skills, lang=lang,
                                   description=description, photo_data=photo_data)
 
-    pdf = pdfkit.from_string(html_content, False)
+    pdf = pdfkit.from_string(html_content.encode(), False)
     response = make_response(pdf)
     response.headers["Content-Type"] = "application/pdf"
     response.headers["Content-Disposition"] = "attachment; filename=Resume.pdf"
     return response
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
